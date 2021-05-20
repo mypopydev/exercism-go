@@ -6,7 +6,7 @@ import "sync"
 type Account struct {
 	balance int64
 	open    bool
-	reqLock *sync.Mutex
+	reqLock *sync.RWMutex
 }
 
 // Open creates a bank account with a balance and doesn't allow
@@ -16,7 +16,7 @@ func Open(init int64) *Account {
 		return nil
 	}
 
-	return &Account{init, true, &sync.Mutex{}}
+	return &Account{init, true, &sync.RWMutex{}}
 }
 
 // Close will closes a bank account, doesn't work on already closed accounts
@@ -36,8 +36,8 @@ func (account *Account) Close() (int64, bool) {
 
 // Balance shows the balance of a bank account
 func (account *Account) Balance() (int64, bool) {
-	account.reqLock.Lock()
-	defer account.reqLock.Unlock()
+	account.reqLock.RLock()
+	defer account.reqLock.RUnlock()
 
 	if !account.open {
 		return 0, false
