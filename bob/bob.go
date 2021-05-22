@@ -1,22 +1,20 @@
 package bob
 
-import "strings"
+import (
+	"regexp"
+	"strings"
+)
 
-func hasLetters(s *string) bool {
-	toLower := strings.ToLower(*s)
-	for _, l := range toLower {
-		if l <= 'z' && l >= 'a' {
-			return true
-		}
-	}
-	return false
+func hasLetter(s *string) bool {
+	hasLetters := regexp.MustCompile("[A-Za-z]")
+	return hasLetters.MatchString(*s)
 }
 
 // Hey return the strings
 func Hey(remark string) string {
 	remark = strings.TrimSpace(remark)
 	switch {
-	case strings.ToUpper(remark) == remark && hasLetters(&remark):
+	case strings.ToUpper(remark) == remark && hasLetter(&remark):
 		if strings.HasSuffix(remark, "?") {
 			return "Calm down, I know what I'm doing!"
 		}
