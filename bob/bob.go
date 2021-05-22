@@ -1,10 +1,31 @@
 package bob
 
-// Hey should have a comment documenting it.
+import "strings"
+
+func hasLetters(s *string) bool {
+	toLower := strings.ToLower(*s)
+	for _, l := range toLower {
+		if l <= 'z' && l >= 'a' {
+			return true
+		}
+	}
+	return false
+}
+
+// Hey return the strings
 func Hey(remark string) string {
-	// Write some code here to pass the test suite.
-	// Then remove all the stock comments.
-	// They're here to help you get started but they only clutter a finished solution.
-	// If you leave them in, reviewers may protest!
-	return ""
+	remark = strings.TrimSpace(remark)
+	switch {
+	case strings.ToUpper(remark) == remark && hasLetters(&remark):
+		if strings.HasSuffix(remark, "?") {
+			return "Calm down, I know what I'm doing!"
+		}
+		return "Whoa, chill out!"
+	case remark == "":
+		return "Fine. Be that way!"
+	case strings.HasSuffix(remark, "?"):
+		return "Sure."
+	default:
+		return "Whatever."
+	}
 }
